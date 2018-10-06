@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "761697558860",
+    "firebase_url": "https://talkchat-38ea6.firebaseio.com",
+    "project_id": "talkchat-38ea6",
+    "storage_bucket": "talkchat-38ea6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:761697558860:android:2c5f5f7486604460",
+        "android_client_info": {
+          "package_name": "com.example.admin.talkchat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "761697558860-v9m85fq7qfoitufohnjhi8r01fs7q5c2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.admin.talkchat",
+            "certificate_hash": "024a4fac4ca9c1545ccecf1e4b6cea8e955588ff"
+          }
+        },
+        {
+          "client_id": "761697558860-lnfhmr9fn11nfge63b8rfjvihbtubfcj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVWi_moFRNgSTthOCb9oajJKhWF9Qz5ps"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "761697558860-lnfhmr9fn11nfge63b8rfjvihbtubfcj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

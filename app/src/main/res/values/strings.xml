@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">TalkChat</string>
+    <string name="start_reg_btn_title">Регистрация</string>
+    <string name="startactivity_title">Welcome to TalkChat</string>
+    <string name="menu_log_out">Выйти</string>
+    <string name="reg_title">Создать новый аккаунт</string>
+    <string name="btn_create_account">Новый аккаунт</string>
+    <string name="change_avatar">Изменить аватар</string>
+    <string name="menu_acc_settings">Настройки</string>
+    <string name="default_status">Hi there, I\'m using TalkChat</string>
+    <string name="menu_users_list">Пользователи</string>
+
+
+</resources>
