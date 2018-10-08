@@ -13,6 +13,8 @@ import android.view.MenuItem;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Set;
 
@@ -22,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
 
     private ViewPager mViewPager;
     private SectionsPagerAdapter mSectionPagerAdapter;
+
+    private DatabaseReference mUserRef;
 
     private TabLayout mTabLayout;
 
@@ -36,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("TalkChat");
 
         mAuth = FirebaseAuth.getInstance();
+
+        mUserRef = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid());
 
         //Tabs
         mViewPager = findViewById(R.id.tabPager);
@@ -55,6 +61,20 @@ public class MainActivity extends AppCompatActivity {
 
         if (currentUser == null){
             sendToStart();
+        }else{
+            mUserRef.child("online").setValue(true);
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+
+        if(currentUser != null) {
+
+            mUserRef.child("online").setValue(false);
         }
     }
 

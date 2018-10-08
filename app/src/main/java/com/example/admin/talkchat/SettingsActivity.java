@@ -43,6 +43,7 @@ import id.zelory.compressor.Compressor;
 public class SettingsActivity extends AppCompatActivity {
 
     private DatabaseReference mUserDatabase;
+    private DatabaseReference mUserRef;
     private FirebaseUser mCurrentUser;
 
     //android layout
@@ -74,6 +75,8 @@ public class SettingsActivity extends AppCompatActivity {
         mImageStorage = FirebaseStorage.getInstance().getReference();
 
         mCurrentUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        mUserRef = FirebaseDatabase.getInstance().getReference().child("Users").child(mCurrentUser.getUid());
 
         String current_uid = mCurrentUser.getUid();
 
@@ -242,6 +245,17 @@ public class SettingsActivity extends AppCompatActivity {
                 Exception error = result.getError();
             }
         }
+    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mUserRef.child("online").setValue(true);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mUserRef.child("online").setValue(false);
     }
     /*public static String random() {//string random generator
         Random generator = new Random();

@@ -32,4 +32,15 @@
         android:text="Default Status"
         android:textSize="14sp"
         android:textColor="@color/black"/>
+
+    <ImageView
+        android:id="@+id/user_online_icon"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:src="@drawable/green_dot"
+        android:layout_toEndOf="@+id/users_single_name"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="20dp"
+        android:visibility="invisible"/>
+
 </RelativeLayout>

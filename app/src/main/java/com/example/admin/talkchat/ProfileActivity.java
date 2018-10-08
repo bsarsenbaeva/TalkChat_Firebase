@@ -26,6 +26,7 @@ import com.squareup.picasso.Picasso;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -40,6 +41,8 @@ public class ProfileActivity extends AppCompatActivity {
     private DatabaseReference mFriendsReqDatabase;
     private DatabaseReference mFriendDatabase;
     private DatabaseReference mNotificationDatabase;
+    private DatabaseReference mDateDatabase;
+    private DatabaseReference mUserRef;
 
     private FirebaseUser mCurrent_User;
 
@@ -55,8 +58,10 @@ public class ProfileActivity extends AppCompatActivity {
         mUsersDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(user_id);
         mFriendsReqDatabase = FirebaseDatabase.getInstance().getReference().child("friends_req");
         mFriendDatabase = FirebaseDatabase.getInstance().getReference().child("Friends");
+        mDateDatabase = FirebaseDatabase.getInstance().getReference().child("Friends").child("date");
         mNotificationDatabase = FirebaseDatabase.getInstance().getReference().child("notifications");
         mCurrent_User = FirebaseAuth.getInstance().getCurrentUser();
+        mUserRef = FirebaseDatabase.getInstance().getReference().child("Users").child(mCurrent_User.getUid());
 
         mProfileImage = findViewById(R.id.profile_image);
         mProfileName = findViewById(R.id.profile_displayname);
@@ -239,12 +244,13 @@ public class ProfileActivity extends AppCompatActivity {
 
                     final String currentDate = DateFormat.getDateTimeInstance().format(new Date());
 
-                    mFriendDatabase.child(mCurrent_User.getUid()).child(user_id).setValue(currentDate)
+
+                    mFriendDatabase.child(mCurrent_User.getUid()).child(user_id).child("date").setValue(currentDate)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
 
-                            mFriendDatabase.child(user_id).child(mCurrent_User.getUid()).setValue(currentDate)
+                            mFriendDatabase.child(user_id).child(mCurrent_User.getUid()).child("date").setValue(currentDate)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
@@ -277,5 +283,17 @@ public class ProfileActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mUserRef.child("online").setValue(true);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mUserRef.child("online").setValue(false);
     }
 }
