@@ -15,6 +15,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 
 import java.util.Set;
 
@@ -41,8 +42,10 @@ public class MainActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        mUserRef = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid());
+        if(mAuth.getCurrentUser() !=null) {
 
+            mUserRef = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid());
+        }
         //Tabs
         mViewPager = findViewById(R.id.tabPager);
         mSectionPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -62,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         if (currentUser == null){
             sendToStart();
         }else{
-            mUserRef.child("online").setValue(true);
+            mUserRef.child("online").setValue("true");
         }
     }
 
@@ -74,7 +77,8 @@ public class MainActivity extends AppCompatActivity {
 
         if(currentUser != null) {
 
-            mUserRef.child("online").setValue(false);
+            mUserRef.child("online").setValue(ServerValue.TIMESTAMP);
+
         }
     }
 

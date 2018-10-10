@@ -9,31 +9,53 @@
 
     <include layout="@layout/app_bar" android:id="@+id/chat_toolbar"/>
 
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/message_swipe_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/linearlayout_send_messages"
+        android:layout_below="@+id/chat_toolbar">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/messages_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/linearlayout_send_messages"
+        android:layout_below="@+id/chat_toolbar">
+
+    </android.support.v7.widget.RecyclerView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
     <LinearLayout
+        android:id="@+id/linearlayout_send_messages"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         android:background="@color/white">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+        <ImageButton
+            android:id="@+id/chat_add_btn"
+            android:layout_width="55dp"
+            android:layout_height="wrap_content"
             android:layout_weight="0"
-            android:src="@drawable/add_icon"
             android:padding="10dp"
-            />
+            android:background="@color/white"
+            android:src="@drawable/add_icon" />
 
         <EditText
+            android:id="@+id/chat_message_view"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="20"
             android:hint="Введите текст"/>
 
-        <ImageView
-            android:layout_width="wrap_content"
+        <ImageButton
+            android:id="@+id/chat_send_btn"
+            android:layout_width="55dp"
             android:layout_height="match_parent"
             android:layout_weight="0"
+            android:background="@color/white"
             android:src="@drawable/send_icon"
             android:padding="10dp"/>
     </LinearLayout>
