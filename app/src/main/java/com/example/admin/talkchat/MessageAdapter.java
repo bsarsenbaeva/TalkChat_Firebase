@@ -1,5 +1,6 @@
 package com.example.admin.talkchat;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -10,8 +11,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -48,6 +53,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
         public TextView messageText,messageTime,messageAuthor;
         public CircleImageView profileImage;
+        public ImageView messageImage;
 
         public MessageViewHolder(@NonNull View view) {
             super(view);
@@ -56,30 +62,49 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
              profileImage = view.findViewById(R.id.message_profile_layout);
              messageAuthor = view.findViewById(R.id.name_text_layout);
              messageTime = view.findViewById(R.id.time_text_layout);
+             messageImage = view.findViewById(R.id.message_image_layout);
 
         }
         //new method
         public void setData(Messages messages){
 
            messageText.setText(messages.getMessage());
+
         }
+
     }
 
 
     @Override
-    public void onBindViewHolder(@NonNull MessageAdapter.MessageViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull final MessageAdapter.MessageViewHolder viewHolder, int position) {
 
         String current_user_id = mAuth.getCurrentUser().getUid();
-
-        //Messages c = mMessageList.get(position);
-
-        //String from_user = c.getFrom();
-
-        String user_name = mUsersDatabase.child(current_user_id).child("name").toString();
-
         String from_user = mMessageList.get(position).getFrom();
+        String message_type = mMessageList.get(position).getType();
 
-        if(from_user.equals(current_user_id)){
+        DatabaseReference mUserData = mUsersDatabase.child(from_user);
+
+        mUserData.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                String name = dataSnapshot.child("name").getValue().toString();
+                String image = dataSnapshot.child("thumb_image").getValue().toString();
+
+                viewHolder.messageAuthor.setText(name);
+
+                Picasso.get().load(image)
+                        .placeholder(R.drawable.default_avatar).into(viewHolder.profileImage);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        //-----------first version of chat, where users have different color of message
+        /*if(from_user.equals(current_user_id)){
 
             viewHolder.messageText.setBackgroundResource(R.drawable.message_text_background);
             viewHolder.messageText.setBackgroundColor(Color.WHITE);
@@ -89,13 +114,21 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
             viewHolder.messageText.setBackgroundResource(R.drawable.message_text_background);
             viewHolder.messageText.setTextColor(Color.WHITE);
+        }*/
+
+        if(message_type.equals("text")) {
+
+            viewHolder.messageText.setText(mMessageList.get(position).getMessage());//show entered message
+            viewHolder.messageImage.setVisibility(View.INVISIBLE);
+
+        }else{
+
+            viewHolder.messageText.setVisibility(View.INVISIBLE);
+
+            Picasso.get().load(mMessageList.get(position).getMessage())
+                    .placeholder(R.drawable.default_avatar).into(viewHolder.messageImage);
         }
-
-       // viewHolder.messageText.setText(c.getMessage());
-        viewHolder.messageText.setText(mMessageList.get(position).getMessage());//show entered message
-        viewHolder.messageAuthor.setText(user_name);
     }
-
 
 
     @Override
